@@ -18,6 +18,6 @@ Could also be useful for test to buys
 
 - Not sure how to return available display ports (hdmi, vga etc...)
 
-- Not sure how to return battery health. 
+- Not sure how to return battery health.<br> 
   Perhaps Win32_BIOS? Win32_Battery exists but does not provide useful results
 
