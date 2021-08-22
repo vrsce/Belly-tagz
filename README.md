@@ -1,5 +1,5 @@
 # Belly-tagz
-**_THANKS FOR STOPPING BY!_**
+**_THANKS FOR STOPPING BY!_**<br>
 belly tags script (powershell)
 
 
@@ -11,7 +11,7 @@ Could also be useful for test to buys
 
 - Cannot retrieve screen size for laptops
 
-- Get-PhysicalDisk portion also returns external drive
+- Get-PhysicalDisk portion also returns external drive. <br>
   Trying to isolate by number field is ineffective. Does not appear to be integer or string data-type
 
 - Internet info returns pre-made string as per aci standards, not sure if this can be avoided
