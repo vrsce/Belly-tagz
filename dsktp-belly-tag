@@ -1,0 +1,88 @@
+Write-Host ' '
+Write-Host "Belly Tagz" -foregroundcolor green
+Write-Host "---------------------------------" -foregroundcolor green
+
+$ddr = Get-WmiObject Win32_PhysicalMemory | Select-Object SMBIOSMemoryType
+
+  if ($ddr = 26) {
+	$ddr = 'DDR4'
+  } elseif ($ddr = 24) {
+	$ddr = 'DDR3'
+  }  elseif ($ddr = 22) {
+	$ddr = 'DDR2 FB-DIMM'
+  } elseif ($ddr = 21) {
+	$ddr = 'DDR2'
+  } elseif ($ddr = 20) {
+	$ddr = 'DDR'
+  }
+
+Get-WmiObject Win32_ComputerSystem | ? {Write-Host $_.Model}
+Get-WmiObject win32_baseboard | ? {Write-Host $_.Manufacturer $_.Product}
+Get-wmiObject win32_processor | ? {write-host $_.name}
+Get-WmiObject Win32_PhysicalMemory | ? {Write-Host ($_.capacity/1gb) "GB" $ddr}
+Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Description}
+Get-PhysicalDisk | ? {Write-Host ("{0:N0}" -f ($_.size/1gb)) "GB" $_.MediaType}
+
+Write-Host "Gigabit Ethernet"
+Write-Host "Windows 10"
+
+
+write-host "---------------------------------" -foregroundcolor green
+write-host "Continue for tech info..." -foregroundcolor green
+
+
+pause
+
+$exec = Get-ExecutionPolicy
+
+Write-Host 'Tech Info ~~' -foregroundcolor yellow
+write-host "---------------------------------" -foregroundcolor yellow
+Get-WmiObject Win32_BIOS | ? {Write-Host "Serial Number: "  $_.SerialNumber -foregroundcolor yellow}
+Write-Host 'ExecutionPolicy is set to: '$exec  -foregroundcolor yellow
+start-process devmgmt.msc
+Write-Host 'Device manager is open' -foregroundcolor yellow
+Write-Host 'Checking windows activation...'
+$act = Get-CimInstance SoftwareLicensingProduct -Filter "Name like 'Windows%'"  | ? {$_.PartialProductKey} | Select LicenseStatus
+
+  if ($act = $True) {
+	  Write-Host "Windows is activated!"  -foregroundcolor yellow
+  } elseif ($act = $False) {
+	  Write-Host "Windows is NOT activated."  -foregroundcolor yellow
+  } else {
+	  Write-Host "Windows Activation server could not be reached"  -foregroundcolor red
+  }
+
+
+
+pause
+
+
+
+
+#-The following could be used for further automation if needed.-#
+
+<#
+if ($exec -eq 'unrestricted') {
+	write-host 'execution policy is now restricted'
+	Set-ExecutionPolicy restricted
+} elseif ($exec -eq 'restricted') {
+	write-host 'execution policy is still restricted'
+}
+
+	Start-Process-Process ms-settings:activation
+	Start-Process ms-settings:personalization-background
+	start-process devmgmt.msc
+	
+	~~Reference content~~
+	
+Computer Model	
+Screen Size / MoBo	
+CPU
+RAM	
+GPU	
+HDD	
+Internet	
+OS	
+Other / Special	
+
+#>
