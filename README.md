@@ -1,5 +1,5 @@
 # Belly-tagz
-**_THANKS FOR STOPPING BY!_**<br>
+**_THANKS FOR STOPING BY!_**<br>
 belly tags script (powershell)
 
 
