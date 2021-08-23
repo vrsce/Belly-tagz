@@ -1,9 +1,9 @@
+
 Write-Host ' '
 Write-Host "Belly Tagz" -foregroundcolor green
 Write-Host "---------------------------------" -foregroundcolor green
 
 $ddr = Get-WmiObject Win32_PhysicalMemory | Select-Object SMBIOSMemoryType
-
   if ($ddr = 26) {
 	$ddr = 'DDR4'
   } elseif ($ddr = 24) {
@@ -18,7 +18,7 @@ $ddr = Get-WmiObject Win32_PhysicalMemory | Select-Object SMBIOSMemoryType
 
 Get-WmiObject Win32_ComputerSystem | ? {Write-Host $_.Model}
 Get-WmiObject win32_baseboard | ? {Write-Host $_.Manufacturer $_.Product}
-Get-wmiObject win32_processor | ? {write-host $_.name}
+Get-wmiObject win32_processor | ? {write-host $_.name "Cores:" $_.NumberOfCores "Threads:"$_.NumberOfLogicalProcessors}
 Get-WmiObject Win32_PhysicalMemory | ? {Write-Host ($_.capacity/1gb) "GB" $ddr}
 Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Description}
 Get-PhysicalDisk | ? {Write-Host ("{0:N0}" -f ($_.size/1gb)) "GB" $_.MediaType}
