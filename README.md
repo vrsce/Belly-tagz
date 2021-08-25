@@ -11,8 +11,8 @@ Could also be useful for test to buys
 
 - <strike>Cannot retrieve screen size for laptops</strike>
 
--<strike> Get-PhysicalDisk portion also returns external drive.</strike> <br>
-  <strike>Trying to isolate by number field is ineffective. Does not appear to be integer or string data-type</strike>
+- <strike> Get-PhysicalDisk portion also returns external drive.</strike> <br>
+   <strike>Trying to isolate by number field is ineffective. Does not appear to be integer or string data-type</strike>
 
 - Internet info returns pre-made string as per aci standards, not sure if this can be avoided
 
