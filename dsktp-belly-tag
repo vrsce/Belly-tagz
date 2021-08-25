@@ -64,5 +64,3 @@ Write-Host 'Checking windows activation...'
 
 pause
 
-#Info on clearing recent files
-# https://social.technet.microsoft.com/Forums/windows/en-US/8ad4210c-6ca7-48bd-b218-0676bbf8600a/empty-recent-files-list-from-explorer-by-powershell-or-registry-means?forum=win10itprosetup
