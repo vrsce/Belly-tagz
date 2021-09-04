@@ -36,7 +36,17 @@ Could also be useful for test to buys
   
   Added command to open file explorer to expose script in recent files, and file explorer options to clear it.
   
+    
+  <hr><hr>
   
+  <u>Change-Log 9/4/21</u>
+  
+  Implemented Start-Transcript with $mod variable to output .txt files of script info
+   (use -Path flag to dictate this output to another location)
+   
+ Removed activation check and replaced with ms-settings:activation.
+ 
+ 
   
   
 
