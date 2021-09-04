@@ -1,8 +1,14 @@
+
+  $mod = Get-WmiObject Win32_ComputerSystem | % {$_.Model}
+  Start-Transcript -append "$mod -bellytag.txt"
+ 
+
+#out-file E:\bellyTag.txt -encoding UTF8
 Write-Host ' '
 Write-Host "Belly Tagz -- *LapTop Edition!*" -foregroundcolor green
 Write-Host "---------------------------------" -foregroundcolor green
 
-$ddr = Get-WmiObject Win32_PhysicalMemory | Select-Object SMBIOSMemoryType | ForEach-Object {$_.SMBIOSMemoryType}
+  $ddr = Get-WmiObject Win32_PhysicalMemory | Select-Object SMBIOSMemoryType | % {$_.SMBIOSMemoryType}
 
 
   if ($ddr -eq 21) {
@@ -21,12 +27,12 @@ Get-WmiObject Win32_ComputerSystem | ? {Write-Host $_.Model}
   $ss = Get-WmiObject -Namespace root\wmi -Class WmiMonitorBasicDisplayParams | select @{ N="Computer"; E={$_.__SERVER} }, @{N="Size"; E={[System.Math]::Round(([System.Math]::Sqrt([System.Math]::Pow($_.MaxHorizontalImageSize, 2) + [System.Math]::Pow($_.MaxVerticalImageSize, 2))/2.54),2)} } | ForEach-Object {$_.Size}
   $ssFin = $ss[0]
 Get-WmiObject Win32_VideoController | ? {Write-Host ($ssFin)'" HD LCD Screen ('$_.CurrentHorizontalResolution 'x' $_.CurrentVerticalResolution')'}
-Get-wmiObject win32_processor | ? {Write-Host $_.name "Cores:" $_.NumberOfCores "Threads:"$_.NumberOfLogicalProcessors}
+Get-wmiObject win32_processor | ? {Write-Host $_.name $_.NumberOfCores "Cores," $_.NumberOfLogicalProcessors"Threads"}
 Get-WmiObject Win32_PhysicalMemory | ? {Write-Host ($_.capacity/1gb) "GB" $ddr}
-Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Description}
- $stor = Get-WmiObject Win32_LogicalDisk | ? {$_.DeviceId -eq "C:"} | ForEach-Object {"{0:N0}" -f ($_.Size/1gb)}
- $dt = Get-PhysicalDisk | ForEach-Object { $_.MediaType }
- $dtFin = $dt[0]
+Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Name}
+  $stor = Get-WmiObject Win32_LogicalDisk | ? {$_.DeviceId -eq "C:"} | ForEach-Object {"{0:N0}" -f ($_.Size/1gb)}
+  $dt = Get-PhysicalDisk | ForEach-Object { $_.MediaType }
+  $dtFin = $dt[0]
 Write-Host $stor "GB" $dtFin
 
 Write-Host "Wifi, Gigabit Ethernet"
@@ -39,7 +45,7 @@ write-host "Continue for tech info..." -foregroundcolor green
 
 pause
 
-$exec = Get-ExecutionPolicy
+  $exec = Get-ExecutionPolicy
 
 Write-Host 'Tech Info ~~' -foregroundcolor yellow
 write-host "---------------------------------" -foregroundcolor yellow
@@ -47,10 +53,24 @@ Get-WmiObject Win32_BIOS | ? {Write-Host "Serial Number: "  $_.SerialNumber -for
 Write-Host 'ExecutionPolicy is set to: '$exec  -foregroundcolor yellow
 start-process devmgmt.msc
 Write-Host 'Device manager is open' -foregroundcolor yellow
-Write-Host File Explorer Options is open to clear recent history -foregroundcolor yellow
-Write-Host explorer is open to prove this +-- Testing purposes --+ -foregroundcolor yellow
+Write-Host "File Explorer Options is open to clear recent history" -foregroundcolor yellow
+Write-Host "^^explorer is open to prove this +-- Testing purposes --+" -foregroundcolor yellow
 Get-ControlPanelItem -Name "File Explorer Options" | Show-ControlPanelItem
 start-process explorer.exe
+
+Start-Process ms-settings:activation
+Write-Host "Windows activation is open" -foregroundcolor yellow
+
+Stop-Transcript
+Write-Host "~~ Press Enter to exit Powershell ~~" -foregroundcolor green
+
+pause
+
+
+<#
+
+Lets put this away for awhile...
+
 Write-Host 'Checking windows activation...'
  $act = Get-CimInstance SoftwareLicensingProduct -Filter "Name like 'Windows%'"  | ? {$_.PartialProductKey} | Select LicenseStatus
 
@@ -59,10 +79,8 @@ Write-Host 'Checking windows activation...'
   } elseif ($act) {
 	write-host "Windows is activated!"  -foregroundcolor yellow
   } else {
-	  Write-Host "Windows Activation servers could not be reached"  -foregroundcolor red
+	  Write-Host "Windows Activation servers could not be reached."  -foregroundcolor red
   }
-
-
-
-pause
-
+#>
+<#Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Name} 
+-- You have tried $_.Description with inconsistent results#>
