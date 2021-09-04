@@ -1,7 +1,7 @@
   $mod = Get-WmiObject Win32_ComputerSystem | % {$_.Model}
   Start-Transcript -append "$mod -bellytag.txt"
 
-#out-file E:\bellyTag.txt -encoding UTF8
+
 Write-Host ' '
 Write-Host "Belly Tagz -- *DeskTop Edition!*" -foregroundcolor green
 Write-Host "---------------------------------" -foregroundcolor green
@@ -82,5 +82,3 @@ Write-Host 'Checking windows activation...'
 #>
 
 
-#Info on clearing recent files
-# https://social.technet.microsoft.com/Forums/windows/en-US/8ad4210c-6ca7-48bd-b218-0676bbf8600a/empty-recent-files-list-from-explorer-by-powershell-or-registry-means?forum=win10itprosetup
