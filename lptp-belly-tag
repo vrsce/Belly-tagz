@@ -3,7 +3,7 @@
   Start-Transcript -append "$mod -bellytag.txt"
  
 
-#out-file E:\bellyTag.txt -encoding UTF8
+
 Write-Host ' '
 Write-Host "Belly Tagz -- *LapTop Edition!*" -foregroundcolor green
 Write-Host "---------------------------------" -foregroundcolor green
@@ -82,5 +82,5 @@ Write-Host 'Checking windows activation...'
 	  Write-Host "Windows Activation servers could not be reached."  -foregroundcolor red
   }
 #>
-<#Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Name} 
--- You have tried $_.Description with inconsistent results#>
+
+
