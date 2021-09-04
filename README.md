@@ -44,6 +44,8 @@ Could also be useful for test to buys
   Implemented Start-Transcript with $mod variable to output .txt files of script info
    (use -Path flag to dictate this output to another location)
    
+  Get-WmiObject win32_videocontroller call now uses $_.Name vs $_.Description for more consistent results
+  
   Removed activation check and replaced with ms-settings:activation
  
  
