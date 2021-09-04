@@ -44,7 +44,7 @@ Could also be useful for test to buys
   Implemented Start-Transcript with $mod variable to output .txt files of script info
    (use -Path flag to dictate this output to another location)
    
- Removed activation check and replaced with ms-settings:activation.
+  Removed activation check and replaced with ms-settings:activation
  
  
   
