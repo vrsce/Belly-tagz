@@ -56,6 +56,8 @@ Could also be useful for test to buys
   
   overcame unnecessary spaces after variable calls using $($_.<i>varName</i>) 
     <br> this saves a lot of work and has a lot of potential for the future of this project.
+    
+  Get-Ciminstance Win32_OperatingSystem | % caption added to determine windows 10 home / pro
    
   added get-date to the end of tech infovsection for easier identification in transcript.
   
