@@ -48,6 +48,17 @@ Could also be useful for test to buys
   
   Removed activation check and replaced with ms-settings:activation
  
+   <hr><hr>
+  
+  <u>Change-Log 9/11/21</u>
+  
+  What an exciting Week!
+  
+  overcame unnecessary spaces after variable calls using $($_.<i>varName</i>) 
+    <br> this saves a lot of work and has a lot of potential for the future of this project.
+   
+  added get-date to the end of tech infovsection for easier identification in transcript.
+  
  
   
   
