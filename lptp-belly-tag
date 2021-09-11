@@ -1,6 +1,6 @@
 
   $mod = Get-WmiObject Win32_ComputerSystem | % {$_.Model}
-  Start-Transcript -append -Path "\\techserver\d\belly-tags\$mod -bellytag.txt"
+  Start-Transcript -append $mod -bellytag.txt"
 
 #out-file E:\bellyTag.txt -encoding UTF8
 Write-Host ' '
