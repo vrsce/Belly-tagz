@@ -1,9 +1,8 @@
 
   $mod = Get-WmiObject Win32_ComputerSystem | % {$_.Model}
-  Start-Transcript -append "$mod -bellytag.txt"
- 
+  Start-Transcript -append -Path "\\techserver\d\belly-tags\$mod -bellytag.txt"
 
-
+#out-file E:\bellyTag.txt -encoding UTF8
 Write-Host ' '
 Write-Host "Belly Tagz -- *LapTop Edition!*" -foregroundcolor green
 Write-Host "---------------------------------" -foregroundcolor green
@@ -26,8 +25,22 @@ Write-Host "---------------------------------" -foregroundcolor green
 Get-WmiObject Win32_ComputerSystem | ? {Write-Host $_.Model}
   $ss = Get-WmiObject -Namespace root\wmi -Class WmiMonitorBasicDisplayParams | select @{ N="Computer"; E={$_.__SERVER} }, @{N="Size"; E={[System.Math]::Round(([System.Math]::Sqrt([System.Math]::Pow($_.MaxHorizontalImageSize, 2) + [System.Math]::Pow($_.MaxVerticalImageSize, 2))/2.54),2)} } | ForEach-Object {$_.Size}
   $ssFin = $ss[0]
-Get-WmiObject Win32_VideoController | ? {Write-Host ($ssFin)'" HD LCD Screen ('$_.CurrentHorizontalResolution 'x' $_.CurrentVerticalResolution')'}
-Get-wmiObject win32_processor | ? {Write-Host $_.name $_.NumberOfCores "Cores," $_.NumberOfLogicalProcessors"Threads"}
+  $horz = Get-WmiObject Win32_VideoController | % {$_.CurrentHorizontalResolution}
+  $verz = Get-WmiObject Win32_VideoController | % {$_.CurrentVerticalResolution}
+  
+  Write-Host "$($ssFin)`" HD LCD Screen ($($horz) x $($verz))"
+  
+#Get-WmiObject Win32_VideoController | ? {Write-Host ($ssFin)'" HD LCD Screen ('$_.CurrentHorizontalResolution 'x' $_.CurrentVerticalResolution')'}
+
+  $cpuName = Get-WmiObject Win32_processor | % {$_.name}
+  $cores = Get-WmiObject Win32_processor | % {$_.NumberOfCores}
+  $threads = Get-WmiObject Win32_processor | % {$_.NumberOfLogicalProcessors}
+  
+  Write-Host "$($cpuName) ($($cores) Cores $($threads) Threads)"
+
+#Get-wmiObject win32_processor | ? {Write-Host $_.name "|" $_.NumberOfCores "Cores" $_.NumberOfLogicalProcessors"Threads"}
+
+
 Get-WmiObject Win32_PhysicalMemory | ? {Write-Host ($_.capacity/1gb) "GB" $ddr}
 Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Name}
   $stor = Get-WmiObject Win32_LogicalDisk | ? {$_.DeviceId -eq "C:"} | ForEach-Object {"{0:N0}" -f ($_.Size/1gb)}
@@ -36,7 +49,16 @@ Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Name}
 Write-Host $stor "GB" $dtFin
 
 Write-Host "Wifi, Gigabit Ethernet"
-Write-Host "Windows 10"
+
+  $Vers = get-Ciminstance Win32_OperatingSystem | % caption
+
+  if ($Vers -eq "Microsoft Windows 10 Pro") {
+	Write-Host "Windows 10 Pro"
+  } elseif ($Vers -eq "Microsoft Windows 10 Home") {
+	Write-host "Windows 10 Home"
+  } else {
+	  Start-Process winver
+  }
 
 
 write-host "---------------------------------" -foregroundcolor green
@@ -60,6 +82,8 @@ start-process explorer.exe
 
 Start-Process ms-settings:activation
 Write-Host "Windows activation is open" -foregroundcolor yellow
+  $date = Get-Date
+Write-Host "Date is: $date"  -foregroundcolor yellow
 
 Stop-Transcript
 Write-Host "~~ Press Enter to exit Powershell ~~" -foregroundcolor green
@@ -82,5 +106,6 @@ Write-Host 'Checking windows activation...'
 	  Write-Host "Windows Activation servers could not be reached."  -foregroundcolor red
   }
 #>
-
+<#Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Name} 
+-- You have tried $_.Description with inconsistent results#>
 
