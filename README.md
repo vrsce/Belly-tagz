@@ -72,4 +72,6 @@ Could also be useful for test to buys
   
   [math]::Round() used to round out screen size on laptop edition.
   
+  Minor gramatical fixes. Capitalizing and indenting for cleaner code.
+  
 
