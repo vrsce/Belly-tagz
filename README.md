@@ -21,6 +21,9 @@ Could also be useful for test to buys
 - Not sure how to return battery health.<br> 
   Perhaps Win32_BIOS? Win32_Battery exists but does not provide useful results
   
+- Script only returns boot drive, would be nice to return 2nd drive if available
+   (I think using -eq "D:" would work pretty consistently, hopefully I will work on a system soon to confirm this.)
+  
   <hr><hr>
   
   <u>Change-Log 8/25/21</u>
@@ -60,8 +63,13 @@ Could also be useful for test to buys
   Get-Ciminstance Win32_OperatingSystem | % caption added to determine windows 10 home / pro
    
   added get-date to the end of tech infovsection for easier identification in transcript.
+   
+   <hr><hr>
   
+  <u>Change-Log 9/19/21</u>
  
+  Get-WmiObject Win32_physicalMemoryArray | % {$_.Memorydevices} added to return available slots
   
+  [math]::Round() used to round out screen size on laptop edition.
   
 
