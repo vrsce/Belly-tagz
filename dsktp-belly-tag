@@ -1,6 +1,6 @@
 
   $mod = Get-WmiObject Win32_ComputerSystem | % {$_.Model}
-  Start-Transcript -append $mod -bellytag.txt"
+ # Start-Transcript -append -Path "_____"
  
 
 #out-file E:\bellyTag.txt -encoding UTF8
@@ -26,18 +26,24 @@ Write-Host "---------------------------------" -foregroundcolor green
 Get-WmiObject Win32_ComputerSystem | ? {Write-Host $_.Model}
 Get-WmiObject win32_baseboard | ? {Write-Host $_.Manufacturer $_.Product}
   
-#Get-WmiObject Win32_VideoController | ? {Write-Host ($ssFin)'" HD LCD Screen ('$_.CurrentHorizontalResolution 'x' $_.CurrentVerticalResolution')'}
+				#Get-WmiObject Win32_VideoController | ? {Write-Host ($ssFin)'" HD LCD Screen ('$_.CurrentHorizontalResolution 'x' $_.CurrentVerticalResolution')'}
 
   $cpuName = Get-WmiObject Win32_processor | % {$_.name}
   $cores = Get-WmiObject Win32_processor | % {$_.NumberOfCores}
   $threads = Get-WmiObject Win32_processor | % {$_.NumberOfLogicalProcessors}
   
-  Write-Host "$($cpuName) ($($cores) Cores $($threads) Threads)"
+Write-Host "$($cpuName) ($($cores) Cores $($threads) Threads)"
 
-#Get-wmiObject win32_processor | ? {Write-Host $_.name "|" $_.NumberOfCores "Cores" $_.NumberOfLogicalProcessors"Threads"}
+				#Get-wmiObject win32_processor | ? {Write-Host $_.name "|" $_.NumberOfCores "Cores" $_.NumberOfLogicalProcessors"Threads"}
+
+  $memTotal = Get-WmiObject Win32_physicalMemory | % {($_.capacity/1gb)}
+  $memSlots = Get-WmiObject Win32_physicalMemoryArray | % {$_.Memorydevices}
+  $memFirst = $memTotal[0]
+
+Write-Host "$($memTotal) GB $($ddr) ($($memFirst) GB x $($memSlots) Slots)"
 
 
-Get-WmiObject Win32_PhysicalMemory | ? {Write-Host ($_.capacity/1gb) "GB" $ddr}
+				#Get-WmiObject Win32_PhysicalMemory | ? {Write-Host ($_.capacity/1gb) "GB" $ddr}
 Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Name}
   $stor = Get-WmiObject Win32_LogicalDisk | ? {$_.DeviceId -eq "C:"} | ForEach-Object {"{0:N0}" -f ($_.Size/1gb)}
   $dt = Get-PhysicalDisk | ForEach-Object { $_.MediaType }
@@ -57,8 +63,8 @@ Write-Host "Gigabit Ethernet"
   }
 
 
-write-host "---------------------------------" -foregroundcolor green
-write-host "Continue for tech info..." -foregroundcolor green
+Write-Host "---------------------------------" -foregroundcolor green
+Write-Host "Continue for tech info..." -foregroundcolor green
 
 
 pause
@@ -78,6 +84,8 @@ start-process explorer.exe
 
 Start-Process ms-settings:activation
 Write-Host "Windows activation is open" -foregroundcolor yellow
+Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Description  -foregroundcolor yellow}
+Write-Host '^^in case previous call was incorrect'  -foregroundcolor yellow
   $date = Get-Date
 Write-Host "Date is: $date"  -foregroundcolor yellow
   
