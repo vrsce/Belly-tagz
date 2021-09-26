@@ -74,4 +74,12 @@ Could also be useful for test to buys
   
   Minor gramatical fixes. Capitalizing and indenting for cleaner code.
   
+     <hr><hr>
+  
+  <u>Change-Log 9/26/21</u>
+ 
+  .Replace() used to clean up cou and video controller output
+  
+  Minor gramatical fixes. Capitalizing and indenting for cleaner code.
+  
 
