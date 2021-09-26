@@ -78,7 +78,7 @@ Could also be useful for test to buys
   
   <u>Change-Log 9/26/21</u>
  
-  .Replace() used to clean up cou and video controller output
+  .Replace() used to clean up cpu and video controller output
   
   Minor gramatical fixes. Capitalizing and indenting for cleaner code.
   
