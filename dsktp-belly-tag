@@ -2,10 +2,8 @@
   $mod = Get-WmiObject Win32_ComputerSystem | % {$_.Model}
  # Start-Transcript -append -Path "_____"
  
-
-#out-file E:\bellyTag.txt -encoding UTF8
 Write-Host ' '
-Write-Host "Belly Tagz -- *LapTop Edition!*" -foregroundcolor green
+Write-Host "Belly Tagz -- *DeskTop Edition!*" -foregroundcolor green
 Write-Host "---------------------------------" -foregroundcolor green
 
   $ddr = Get-WmiObject Win32_PhysicalMemory | Select-Object SMBIOSMemoryType | % {$_.SMBIOSMemoryType}
@@ -32,7 +30,7 @@ Get-WmiObject win32_baseboard | ? {Write-Host $_.Manufacturer $_.Product}
   $cores = Get-WmiObject Win32_processor | % {$_.NumberOfCores}
   $threads = Get-WmiObject Win32_processor | % {$_.NumberOfLogicalProcessors}
   
-Write-Host "$($cpuName) ($($cores) Cores $($threads) Threads)"
+Write-Host $cpuName.Replace("(R)", "").Replace(" CPU", "").Replace("@ ", "@") "($($cores) Cores $($threads) Threads)"
 
 				#Get-wmiObject win32_processor | ? {Write-Host $_.name "|" $_.NumberOfCores "Cores" $_.NumberOfLogicalProcessors"Threads"}
 
@@ -44,7 +42,12 @@ Write-Host "$($memTotal) GB $($ddr) ($($memFirst) GB x $($memSlots) Slots)"
 
 
 				#Get-WmiObject Win32_PhysicalMemory | ? {Write-Host ($_.capacity/1gb) "GB" $ddr}
-Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Name}
+
+  $vc = Get-WmiObject win32_videocontroller | %  {$_.Name}
+
+Write-Host $vc.Replace("(R)", "")
+
+
   $stor = Get-WmiObject Win32_LogicalDisk | ? {$_.DeviceId -eq "C:"} | ForEach-Object {"{0:N0}" -f ($_.Size/1gb)}
   $dt = Get-PhysicalDisk | ForEach-Object { $_.MediaType }
   $dtFin = $dt[0]
@@ -52,12 +55,12 @@ Write-Host $stor "GB" $dtFin
 
 Write-Host "Gigabit Ethernet"
 
-  $Vers = get-Ciminstance Win32_OperatingSystem | % caption
+  $Vers = Get-Ciminstance Win32_OperatingSystem | % caption
 
   if ($Vers -eq "Microsoft Windows 10 Pro") {
 	Write-Host "Windows 10 Pro"
   } elseif ($Vers -eq "Microsoft Windows 10 Home") {
-	Write-host "Windows 10 Home"
+	Write-Host "Windows 10 Home"
   } else {
 	  Start-Process winver
   }
@@ -72,20 +75,18 @@ pause
   $exec = Get-ExecutionPolicy
 
 Write-Host 'Tech Info ~~' -foregroundcolor yellow
-write-host "---------------------------------" -foregroundcolor yellow
+write-Host "---------------------------------" -foregroundcolor yellow
 Get-WmiObject Win32_BIOS | ? {Write-Host "Serial Number: "  $_.SerialNumber -foregroundcolor yellow}
 Write-Host 'ExecutionPolicy is set to: '$exec  -foregroundcolor yellow
-start-process devmgmt.msc
+Start-Process devmgmt.msc
 Write-Host 'Device manager is open' -foregroundcolor yellow
 Write-Host "File Explorer Options is open to clear recent history" -foregroundcolor yellow
 Write-Host "^^explorer is open to prove this +-- Testing purposes --+" -foregroundcolor yellow
 Get-ControlPanelItem -Name "File Explorer Options" | Show-ControlPanelItem
-start-process explorer.exe
+Start-Process explorer.exe
 
 Start-Process ms-settings:activation
 Write-Host "Windows activation is open" -foregroundcolor yellow
-Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Description  -foregroundcolor yellow}
-Write-Host '^^in case previous call was incorrect'  -foregroundcolor yellow
   $date = Get-Date
 Write-Host "Date is: $date"  -foregroundcolor yellow
   
