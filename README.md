@@ -88,7 +88,7 @@ Could also be useful for test to buys
    
   Replaced all Select-Object with ? and Foreach-Object with % for consistency.
 
-  Added if statements for error catch to drive type and video controller.
+  Added if statements for error catch to drive type and video controller. <br>
    (Video controller error catch is set specificaly to intel products.)
   
   
