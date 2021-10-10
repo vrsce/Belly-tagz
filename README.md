@@ -23,6 +23,9 @@ Could also be useful for test to buys
   
 - Script only returns boot drive, would be nice to return 2nd drive if available
    (I think using -eq "D:" would work pretty consistently, hopefully I will work on a system soon to confirm this.)
+   
+- Windows 11 is presenting an interesting challenge with calling the 0 index ( [0] ) on line 77. <br>
+  Prints an error about indexing to a null array.
   
   <hr><hr>
   
