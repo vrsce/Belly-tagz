@@ -82,4 +82,15 @@ Could also be useful for test to buys
   
   Minor gramatical fixes. Capitalizing and indenting for cleaner code.
   
+   <hr><hr>
+  
+  <u>Change-Log 10/10/21</u>
+   
+  Replaced all Select-Object with ? and Foreach-Object with % for consistency.
 
+  Added if statements for error catch to drive type and video controller.
+   (Video controller error catch is set specificaly to intel products.)
+  
+  
+  
+  
