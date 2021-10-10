@@ -63,7 +63,6 @@ Write-Host "$($memTotal) GB $($ddr) ($($memFirst) GB x $($memSlots) Slots)"
   }  elseif ($vc -eq "Intel HD Graphics Family") {
 	 $vc = " ~~~ UNSPECIFIED, PLEASE CHECK ON SYSTEM ~~~ "
   } else {
-	#$vc = "Else statement activated"
 	$vc = $vc.Replace("(R)", "").Replace("(TM)", "")
   }
 
