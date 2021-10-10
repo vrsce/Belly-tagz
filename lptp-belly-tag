@@ -1,19 +1,22 @@
-
+  
   $mod = Get-WmiObject Win32_ComputerSystem | % {$_.Model}
- # Start-Transcript -append -Path "_____"
+  Start-Transcript -append -Path "_____\$mod -bellytag.txt"
 
+#Start-Transcript -append -Path "D:\$mod -bellytag.txt"
+
+#out-file E:\bellyTag.txt -encoding UTF8
 Write-Host ' '
 Write-Host "Belly Tagz -- *LapTop Edition!*" -foregroundcolor green
 Write-Host "---------------------------------" -foregroundcolor green
 
-  $ddr = Get-WmiObject Win32_PhysicalMemory | Select-Object SMBIOSMemoryType | % {$_.SMBIOSMemoryType}
+  $ddr = Get-WmiObject Win32_PhysicalMemory | ? SMBIOSMemoryType | % {$_.SMBIOSMemoryType}
 
 
   if ($ddr -eq 21) {
 	$ddr = 'DDR2'
   } elseif ($ddr -eq 26) {
 	$ddr = 'DDR4'
-  }  elseif ($ddr -eq 22) {
+  } elseif ($ddr -eq 22) {
 	$ddr = 'DDR2 FB-DIMM'
   } elseif ($ddr -eq 24) {
 	$ddr = 'DDR3'
@@ -22,7 +25,7 @@ Write-Host "---------------------------------" -foregroundcolor green
   }
 
 Get-WmiObject Win32_ComputerSystem | ? {Write-Host $_.Model}
-  $ss = Get-WmiObject -Namespace root\wmi -Class WmiMonitorBasicDisplayParams | select @{ N="Computer"; E={$_.__SERVER} }, @{N="Size"; E={[System.Math]::Round(([System.Math]::Sqrt([System.Math]::Pow($_.MaxHorizontalImageSize, 2) + [System.Math]::Pow($_.MaxVerticalImageSize, 2))/2.54),2)} } | ForEach-Object {$_.Size}
+  $ss = Get-WmiObject -Namespace root\wmi -Class WmiMonitorBasicDisplayParams | select @{ N="Computer"; E={$_.__SERVER} }, @{N="Size"; E={[System.Math]::Round(([System.Math]::Sqrt([System.Math]::Pow($_.MaxHorizontalImageSize, 2) + [System.Math]::Pow($_.MaxVerticalImageSize, 2))/2.54),2)} } | % {$_.Size}
   $ssFin = [math]::Round($ss[0])
   $horz = Get-WmiObject Win32_VideoController | % {$_.CurrentHorizontalResolution}
   $verz = Get-WmiObject Win32_VideoController | % {$_.CurrentVerticalResolution}
@@ -35,7 +38,7 @@ Get-WmiObject Win32_ComputerSystem | ? {Write-Host $_.Model}
   $cores = Get-WmiObject Win32_processor | % {$_.NumberOfCores}
   $threads = Get-WmiObject Win32_processor | % {$_.NumberOfLogicalProcessors}
   
-Write-Host $cpuName.Replace("(R)", "").Replace(" CPU", "").Replace("@ ", "@") "($($cores) Cores $($threads) Threads)"
+Write-Host $cpuName.Replace("(R)", "").Replace("(TM)", "").Replace(" CPU", "").Replace("@ ", "@") "($($cores) Cores $($threads) Threads)"
 
 				#Get-wmiObject win32_processor | ? {Write-Host $_.name "|" $_.NumberOfCores "Cores" $_.NumberOfLogicalProcessors"Threads"}
 
@@ -49,15 +52,49 @@ Write-Host "$($memTotal) GB $($ddr) ($($memFirst) GB x $($memSlots) Slots)"
 				
   $vc = Get-WmiObject win32_videocontroller | %  {$_.Name}
 
-Write-Host $vc.Replace("(R)", "")
 
-  $stor = Get-WmiObject Win32_LogicalDisk | ? {$_.DeviceId -eq "C:"} | ForEach-Object {"{0:N0}" -f ($_.Size/1gb)}
-				#$stor = Get-WmiObject Win32_LogicalDisk | ? {($_.Size/1gb) -gt 100} | ForEach-Object {"{0:N0}" -f $_.Size/1gb)}
-  $dt = Get-PhysicalDisk | ForEach-Object { $_.MediaType }
+
+  if ($vc -eq "Intel(R) HD Graphics") {
+	 $vc = " ~~~ UNSPECIFIED, PLEASE CHECK ON SYSTEM ~~~ "
+  } elseif ($vc -eq "Intel HD Graphics") {
+	 $vc = " ~~~ UNSPECIFIED, PLEASE CHECK ON SYSTEM ~~~ "
+  } elseif ($vc -eq "Intel(R) HD Graphics Family") {
+	 $vc = " ~~~ UNSPECIFIED, PLEASE CHECK ON SYSTEM ~~~ "
+  }  elseif ($vc -eq "Intel HD Graphics Family") {
+	 $vc = " ~~~ UNSPECIFIED, PLEASE CHECK ON SYSTEM ~~~ "
+  } else {
+	#$vc = "Else statement activated"
+	$vc = $vc.Replace("(R)", "").Replace("(TM)", "")
+  }
+
+  
+Write-Host $vc
+
+
+
+  $stor = Get-WmiObject Win32_LogicalDisk | ? {$_.DeviceId -eq "C:"} | % {"{0:N0}" -f ($_.Size/1gb)}
+				#$stor = Get-WmiObject Win32_LogicalDisk | ? {($_.Size/1gb) -gt 100} | % {"{0:N0}" -f $_.Size/1gb)}
+  $dt = Get-PhysicalDisk | % { $_.MediaType }
   $dtFin = $dt[0]
   
-Write-Host $stor "GB" $dtFin
- 
+
+  if ($dtFin -eq 'H') {
+	  $dtFin = 'HDD'  
+	  Write-Host $stor "GB" $dtFin
+  } elseif ($dtFin -eq 'S') {
+	  $dtFin = 'SSD'  
+	  Write-Host $stor "GB" $dtFin
+  } elseif ($dtFin -eq 'u') {
+	  $dtFin = ' ~~~ UNSPECIFIED, PLEASE CHECK ON SYSTEM ~~~ '  
+	  Write-Host $stor "GB" $dtFin -foregroundcolor red
+  } elseif ($dtFin -eq 'unspecified') {
+	  $dtFin = ' ~~~ UNSPECIFIED, PLEASE CHECK ON SYSTEM ~~~ '  
+	  Write-Host $stor "GB" $dtFin -foregroundcolor red
+  } else {
+	  Write-Host $stor "GB" $dtFin
+  }
+  
+		#Write-Host $stor "GB" $dtFin
 
 Write-Host "Wifi, Gigabit Ethernet"
 
@@ -69,7 +106,7 @@ Write-Host "Wifi, Gigabit Ethernet"
 	Write-Host "Windows 10 Home"
   } else {
 	Write-Host "Windows ~~"
-	  Start-Process winver
+	Start-Process winver
   }
 
 
@@ -96,7 +133,7 @@ Write-Host "Windows activation is open" -foregroundcolor yellow
   $date = Get-Date
 Write-Host "Date is: $date"  -foregroundcolor yellow
 
-Stop-Transcript
+#Stop-Transcript
 Write-Host "~~ Press Enter to exit Powershell ~~" -foregroundcolor green
 
 pause
@@ -119,5 +156,4 @@ Write-Host 'Checking windows activation...'
 #>
 <#Get-WmiObject win32_videocontroller | ?  {Write-Host $_.Name} 
 -- You have tried $_.Description with inconsistent results#>
-
 
